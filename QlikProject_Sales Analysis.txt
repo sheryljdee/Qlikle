@@ -1,0 +1,39 @@
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET FirstWeekDay=6;
+SET BrokenWeeks=1;
+SET ReferenceDay=0;
+SET FirstMonthOfYear=1;
+SET CollationLocale='en-US';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET LongMonthNames='January;February;March;April;May;June;July;August;September;October;November;December';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+SET LongDayNames='Monday;Tuesday;Wednesday;Thursday;Friday;Saturday;Sunday';
+
+section access;
+load * inline [
+ACCESS,USERID,PASSWORD,CUSTOMERSEG
+ADMIN,ADMIN,ADMIN,*
+USER,USER1,U1,CONSUMER
+USER,USER2,U2,CORPORATE
+USER,USER3,U3,HOME OFFICE
+USER,USER4,U4,*
+];
+
+SECTION Application;
+
+
+Directory;
+LOAD [Row ID], [Order ID], [Order Date], [Order Priority], [Order Quantity], Sales, Discount, 
+     [Ship Mode], Profit, [Unit Price], [Shipping Cost], [Customer Name], Province, Region, 
+     upper([Customer Segment]) AS CUSTOMERSEG, [Product Category], [Product Sub-Category], [Product Name], 
+     [Product Container], [Product Base Margin], [Ship Date]
+FROM [E:\QlikView\Chaddi Class\Sample - Superstore Sales.xls]
+(biff, embedded labels, table is Orders$);
+
